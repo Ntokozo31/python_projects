@@ -9,10 +9,10 @@ the application should be **approved or rejected**.
 
 
 # Customer details
-first_name = input("Please enter your Full name: ").strip().title()
+first_name = input("Please enter your First name: ").strip().title()
 surname = input("Please enter your Surname: ").strip().title()
 id_number = input("Please enter your valid ID number: ").strip()
-amount_payed = int(input("How much are you paying for this vehicle: R"))
+amount_payed = float(input("How much are you paying for this vehicle: R"))
 
 # Vehicle details
 vehicle_make = "VW Tiguan"
@@ -21,16 +21,21 @@ vehicle_registration = "PHG123FH GP"
 vehicle_price = 4200000
 
 # Document status
-document_status = "Valid"
+document_status = input("Please enter document status: (Valid/Invalid): ").lower()
 
 # Document verification
-if len(id_number) < 13 and document_status == "Valid":
-    document_status = "Invalid"
-    reason = "Custormer Documents"
+if not first_name or not surname or not id_number:
+    document_status = "invalid"
     application_status = "Application Rejected"
+    reason = "Please make sure all fields are filled."
+
+elif len(id_number) != 13 or not id_number.isdigit():
+    document_status = "invalid"
+    application_status = "Application Rejected"
+    reason = "Invalid customer ID number Please enter your 13 Valid ID number"
 
 # Payment verificarion
-elif document_status == "Valid" and amount_payed >= vehicle_price:
+elif document_status == "valid" and amount_payed >= vehicle_price:
     application_status = "Application Approved"
     reason = "Documents are valid and amount paid is sufficient"
 else:
@@ -55,8 +60,8 @@ print("=========================================\n")
 print("*******************************************")
 
 # Message from dealership
-if reason == "Insufficient payment" or reason == "Custormer Documents":
-    print(f"We're sorry {first_name} {surname} please try again after 3 months")
+if reason == "Insufficient payment" or reason == "Please make sure all fields are filled." or reason == "Invalid customer ID number Please enter your 13 Valid ID number":
+    print(f"We're sorry {first_name} {surname}")
 else:
     print(f"***Congratulation*** {first_name} {surname} on your new ride {vehicle_make} {vehicle_model}")
 
